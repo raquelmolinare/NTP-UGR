@@ -1,0 +1,12 @@
+# intellij idea
+*.log
+*.iml
+*.ipr
+*.iws
+.idea
+
+# scala 3
+.tasty
+
+#general
+*.class
