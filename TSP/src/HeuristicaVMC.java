@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * interfaz para proporcionar el comportamiento de la heuristica
@@ -9,29 +8,21 @@ public class HeuristicaVMC implements HeuristicaTSP{
    /**
     * referencia al problema a resolver
     */
-   private MapaTSP mapa;
-
-   /**
-    * dato miembro para almacenar la ruta optima
-    */
-   private Ruta optima;
+   private final MapaTSP mapa;
 
    /**
     * constructor de la clase
-    * @param mapa
+    * @param mapa mapa del problema
     */
    public HeuristicaVMC(MapaTSP mapa){
       // se asigna el mapa
       this.mapa = mapa;
-
-      // se crea inicializa la ruta optima
-      this.optima = new Ruta();
    }
 
    /**
     * metodo de resolucion con heuristica del vecino
     * mas cercano
-    * @return
+    * @return la ruta optima
     */
    public Ruta resolver(){
       System.out.println("Interfaz HeuristicaVMC");
@@ -40,6 +31,8 @@ public class HeuristicaVMC implements HeuristicaTSP{
       // NOTA: por implementar. Pueden implementarse los
       // metodos auxiliares que se considere oportuno
 
+      Ruta optima = new Ruta();
+      ArrayList<Ruta> rutas = new ArrayList<>();
 
       // Para cada ciudad i
       for( int i=0; i < mapa.obtenerDimension(); i++) {
@@ -49,76 +42,93 @@ public class HeuristicaVMC implements HeuristicaTSP{
          // La primera ciudad de la ruta será vi
          Punto vi = mapa.obtenerPunto(i);
 
-         // añadir la ciudad al recorrido
-         double coste = resultado.calcularLongitud() == 0? 0.0: this.mapa.calcularDistancia(resultado.obtenerPunto(resultado.calcularLongitud()-1),vi);
+         // Añadir la primera ciudad al recorrido
+         double coste = resultado.calcularLongitud() == 0 ?
+                 0.0 : this.mapa.calcularDistancia(resultado.obtenerUltimo(),vi);
          resultado.agregar(vi, coste);
 
          // Completar la ruta
-         this.completarRuta(resultado, i);
+         this.completarRuta(resultado);
 
-         // Volvemos a añadir la primera ciudad
-         coste = resultado.calcularLongitud() == 0? 0.0: this.mapa.calcularDistancia(resultado.obtenerPunto(resultado.calcularLongitud()-1),vi);
-         resultado.agregar(vi, coste);
-
-
-         //Actualizar la ruta optima si es necesario
-         if( this.optima.obtenerCoste() == 0.0 || (this.optima.obtenerCoste() > resultado.obtenerCoste() )) {
-            this.optima = new Ruta( resultado.obtenerSecuencia(), resultado.obtenerCoste());
-         }
-
+         // Se agrega la ruta nueva a la coleccion de rutas
+         rutas.add(resultado);
       }
 
-      System.out.println("RESULTADO VMC");
-      System.out.println(this.optima.toString());
+      // Una vez aqui el array de rutas tiene una ruta de vecino mas cercano por cada ciudad del mapa
+      // Obtener de todas las rutas la ruta optima, es decir la de menor coste
+      optima = this.obtenerRutaMenorCoste(rutas);
+
+      System.out.println("RESULTADO VCM:");
+      System.out.println(optima.toString());
 
       // se devuelve la ruta de minimo coste
-      return this.optima;
+      return optima;
    }
 
-   private void completarRuta(Ruta ruta, int indicePrimeraCiudad){
+   /**
+    * Metodo recursivo para completar la ruta con las ciudades del mapa
+    * @param ruta a completar
+    */
+   private void completarRuta(Ruta ruta){
+      // Si la ruta no está completa
+      if(ruta.calcularLongitud() < this.mapa.obtenerDimension() ){
+         // Obtener el punto mas cercano al anterior (que no haya sido visitada)
+         Punto masCercana = this.puntoMasCercanoValido(ruta);
 
-      // Mientras queden ciudades por recorrer
-      for(int j=0; j < this.mapa.obtenerDimension(); j++) {
-         if( j != indicePrimeraCiudad ){
+         // Añadirlo al recorrido
+         double coste = ruta.calcularLongitud() == 0 ?
+                 0.0 : this.mapa.calcularDistancia(ruta.obtenerUltimo(),masCercana);
+         ruta.agregar(masCercana, coste);
 
-            // Obtener la más cercana a la anterior (que no haya sido visitada)
-            Punto masCercana = mapa.obtenerPunto(this.indiceMenorDistancia(indicePrimeraCiudad, ruta));
+         // Recursividad: seguir completando la ruta
+         this.completarRuta(ruta);
+      }
+      else {
+         // Si la ruta ya esta completa
+         // Volvemos a añadir la primera ciudad para finalizar el recorrido
+         double coste = ruta.calcularLongitud() == 0 ?
+                 0.0 : this.mapa.calcularDistancia(ruta.obtenerUltimo(),ruta.obtenerPunto(0));
+         ruta.agregar(ruta.obtenerPunto(0), coste);
+      }
+   }
 
-            // Añadirla al recorrido
-            double coste = ruta.calcularLongitud() == 0? 0.0: this.mapa.calcularDistancia(ruta.obtenerPunto(ruta.calcularLongitud()-1),masCercana);
-            ruta.agregar(masCercana, coste);
+   /**
+    * Metodo para obtener el siguiente punto del mapa más cercano al último punto de la ruta y que no haya sido visitado
+    * @param ruta ruta actual
+    * @return devuelve el punto mas cercano no visitado
+    */
+   private Punto puntoMasCercanoValido(Ruta ruta) {
+      Punto masCercano = null;
+      double distanciaMinima = Double.MAX_VALUE;
 
+      // Se recorren los puntos del mapa
+      for(Punto p: this.mapa.obtenerPuntos()) {
+         // Si es un punto no contenido ya en la ruta y tiene una distancia menor
+         if( !ruta.contiene(p) && this.mapa.calcularDistancia(ruta.obtenerUltimo(), p) < distanciaMinima) {
+            // se actualiza el valor del punto mas cercano
+            masCercano = p;
+            distanciaMinima = this.mapa.calcularDistancia(ruta.obtenerUltimo(), p);
          }
       }
 
-      // Re
-      if(ruta.calcularLongitud() < this.mapa.obtenerDimension()) {
-         this.completarRuta(ruta, indicePrimeraCiudad);
-      }
+      // devolver el punto mas cercano no visitado
+      return masCercano;
    }
 
-   // TODO: Refactorizar este método en Mapa
-   private int indiceMenorDistancia(int inicio, Ruta rutaActual) {
-      int indiceMenor = -1;
-      double distanciaMenor = -1.0;
+   /**
+    * Método para obtener la ruta de menor coste
+    * @param rutas ArrayList de rutas a comparar
+    * @return ruta de menor coste
+    */
+   private Ruta obtenerRutaMenorCoste(ArrayList<Ruta> rutas) {
+      Ruta rutaMenorCoste = rutas.size()>0? rutas.get(0) : null;
 
-
-      for(int i= 0; i < this.mapa.obtenerDimension(); i++){
-         if( i != inicio && !rutaActual.contiene(mapa.obtenerPunto(i)) ) {
-            if( indiceMenor == -1 ) {
-               indiceMenor = i;
-               distanciaMenor = this.mapa.calcularDistancia(this.mapa.obtenerPunto(inicio), this.mapa.obtenerPunto(indiceMenor));
-            }
-            else {
-               double d = this.mapa.calcularDistancia(this.mapa.obtenerPunto(inicio), this.mapa.obtenerPunto(i));
-               if( d < distanciaMenor ) {
-                  indiceMenor = i;
-                  distanciaMenor = d;
-               }
-            }
+      for(Ruta ruta : rutas) {
+         if (ruta.obtenerCoste() < rutaMenorCoste.obtenerCoste()) {
+            rutaMenorCoste = ruta;
          }
       }
 
-      return indiceMenor;
+      return rutaMenorCoste;
    }
 }

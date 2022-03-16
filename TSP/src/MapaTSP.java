@@ -69,6 +69,11 @@ public class MapaTSP {
       return puntos.get(indice);
    }
 
+   // NUEVO
+   public  List<Punto> obtenerPuntos() {
+      return this.puntos;
+   }
+
    /**
     * metodo mostrar delegando en el visualizador correspondiente
     */
