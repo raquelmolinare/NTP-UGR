@@ -10,7 +10,7 @@ public class HeuristicaMC implements HeuristicaTSP {
     /**
      * numero de iteraciones del problema
      */
-    private int iteraciones;
+    private final int iteraciones;
 
     /**
      * constante factor de multiplicacion
@@ -20,16 +20,15 @@ public class HeuristicaMC implements HeuristicaTSP {
     /**
      * referencia al problema a resolver
      */
-    private MapaTSP mapa;
+    private final MapaTSP mapa;
 
     /**
      * array de indices de ciudades
       */
-    private List<Integer> indices;
+    private final List<Integer> indices;
 
-    /**
-     * Constructor de las variables tipo static
-     */
+
+     /* Constructor de las variables tipo static*/
     static {
         FACTOR = 10000;
     }
@@ -37,7 +36,7 @@ public class HeuristicaMC implements HeuristicaTSP {
     /**
      * constructor de la clase
      *
-     * @param mapa
+     * @param mapa mapa del problema
      */
     public HeuristicaMC(MapaTSP mapa) {
         // se asigna el dato miembro mapa
