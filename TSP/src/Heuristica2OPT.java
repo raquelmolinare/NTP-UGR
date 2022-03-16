@@ -1,34 +1,35 @@
 import java.util.Random;
 
 public class Heuristica2OPT implements HeuristicaTSP{
+
+    /**
+     * constante parametro K de la heuristica
+     */
+    private static int K;
+
     /**
      * referencia al problema a resolver
      */
-    private MapaTSP mapa;
+    private final MapaTSP mapa;
 
     /**
      *
      */
-    private HeuristicaTSP heuristica;
-
-    /**
-     * dato miembro para almacenar la ruta optima
-     */
-    private Ruta optima;
+    private final HeuristicaTSP heuristica;
 
     /**
      * constructor de la clase
-     * @param mapa
+     * @param mapa mapa del problema
      */
     public Heuristica2OPT(MapaTSP mapa, HeuristicaTSP heuristica){
         // se asigna el mapa
         this.mapa = mapa;
 
-        //
+        // se asigna la heuristica
         this.heuristica = heuristica;
 
-        // se crea inicializa la ruta optima
-        this.optima = new Ruta();
+        // se calcula el parametro K en base a la dimension del problema
+        K = new Random().nextInt(this.mapa.obtenerDimension()-1)+1;
     }
 
 
@@ -37,27 +38,34 @@ public class Heuristica2OPT implements HeuristicaTSP{
         System.out.println("Interfaz Heuristica2OPT");
         System.out.println("resolucion mediante la heuristica 2opt");
 
-        this.optima = heuristica.resolver();
+        Ruta optima = heuristica.resolver();
 
-        int k = new Random().nextInt(mapa.obtenerDimension()-1)+1;
-
-        for(int i=0; i<=k; i++) {
-            for(int j=i+1; j<=k; j++) {
+        for(int i=0; i<=K; i++) {
+            for(int j=i+1; j<=K; j++) {
                 // Generar la nueva ruta
-                Ruta nueva = this.swaopt( this.optima, i, j);
+                Ruta nueva = this.swaopt( optima, i, j);
 
                 // Comparar los costes
-                if( nueva.obtenerCoste() < this.optima.obtenerCoste()){
-                    this.optima = nueva;
+                if( nueva.obtenerCoste() < optima.obtenerCoste()){
+                    optima = nueva;
                 }
             }
         }
 
         System.out.println("RESULTADO 2OPT:");
-        System.out.println(this.optima);
-        return this.optima;
+        System.out.println(optima.toString());
+
+        // Devolver la ruta optima
+        return optima;
     }
 
+    /**
+     * metodo swaopt
+     * @param ruta ruta actual
+     * @param inicio indice de inicio
+     * @param fin indice de fin
+     * @return nueva ruta tras el swap
+     */
     private Ruta swaopt(Ruta ruta, int inicio, int fin) {
 
         // Nueva ruta vacia
@@ -68,7 +76,8 @@ public class Heuristica2OPT implements HeuristicaTSP{
         for(int i=0; i < inicio; i++) {
             // Evitar repeticiones por la primera y ultima ciudad
             if( !nueva.contiene(ruta.obtenerPunto(i)) ) {
-                coste = nueva.calcularLongitud() == 0? 0.0: this.mapa.calcularDistancia(nueva.obtenerPunto(nueva.calcularLongitud()-1), ruta.obtenerPunto(i));
+                coste = nueva.calcularLongitud() == 0 ?
+                        0.0 : this.mapa.calcularDistancia(nueva.obtenerUltimo(),ruta.obtenerPunto(i));
                 nueva.agregar(ruta.obtenerPunto(i), coste);
             }
         }
@@ -77,7 +86,8 @@ public class Heuristica2OPT implements HeuristicaTSP{
         for(int i=fin; i>=inicio; i--) {
             // Evitar repeticiones
             if( !nueva.contiene(ruta.obtenerPunto(i)) ) {
-                coste = nueva.calcularLongitud() == 0 ? 0.0 : this.mapa.calcularDistancia(nueva.obtenerPunto(nueva.calcularLongitud() - 1), ruta.obtenerPunto(i));
+                coste = nueva.calcularLongitud() == 0 ?
+                        0.0 : this.mapa.calcularDistancia(nueva.obtenerUltimo(),ruta.obtenerPunto(i));
                 nueva.agregar(ruta.obtenerPunto(i), coste);
             }
         }
@@ -86,13 +96,15 @@ public class Heuristica2OPT implements HeuristicaTSP{
         for(int i=fin+1; i < ruta.calcularLongitud(); i++) {
             // Evitar repeticiones
             if( !nueva.contiene(ruta.obtenerPunto(i)) ) {
-                coste = nueva.calcularLongitud() == 0 ? 0.0 : this.mapa.calcularDistancia(nueva.obtenerPunto(nueva.calcularLongitud() - 1), ruta.obtenerPunto(i));
+                coste = nueva.calcularLongitud() == 0 ?
+                        0.0 : this.mapa.calcularDistancia(nueva.obtenerUltimo(),ruta.obtenerPunto(i));
                 nueva.agregar(ruta.obtenerPunto(i), coste);
             }
         }
 
-        //Incuimos la ciudad inicial
-        coste = this.mapa.calcularDistancia(nueva.obtenerPunto(nueva.calcularLongitud()-1), nueva.obtenerPunto(0));
+        //Incuimos la ciudad inicial para cerrar la ruta
+        coste = nueva.calcularLongitud() == 0 ?
+                0.0 : this.mapa.calcularDistancia(nueva.obtenerUltimo(),nueva.obtenerPunto(0));
         nueva.agregar(nueva.obtenerPunto(0), coste);
 
         return nueva;
