@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Optional;
 
 /**
  * clase para almacenar recorridos de ciudades
@@ -25,15 +26,6 @@ public class Ruta {
       // se indica que el coste es 0
       coste = 0;
    }
-
-   /**
-    * constructor por parametros
-    */
-   public Ruta(ArrayList<Punto> secuencia, double coste){
-      this.secuencia = secuencia;
-      this.coste = coste;
-   }
-
 
    /**
     * agrega punto nuevo a la ruta, sin hacer comprobacion
@@ -89,11 +81,13 @@ public class Ruta {
    }
 
    // NUEVO
-   /**
-    * metodo para obtener la secuencia
-    */
-   public ArrayList<Punto> obtenerSecuencia(){
-      return secuencia;
+   public Punto obtenerUltimo() {
+      if(this.secuencia.size() > 0) {
+         return this.secuencia.get(this.secuencia.size()-1);
+      }
+      else {
+         return null;
+      }
    }
 
    /**

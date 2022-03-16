@@ -1,13 +1,21 @@
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * interfaz para proporcionar el comportamiento de la heuristica
  * mediante simulacion Montecarlo
  */
 public class HeuristicaMC implements HeuristicaTSP {
-    // constante para el numero de iteraciones
-    final static int iteraciones = 100000;
+    /**
+     * numero de iteraciones del problema
+     */
+    private int iteraciones;
+
+    /**
+     * constante factor de multiplicacion
+     */
+    private static final int FACTOR;
 
     /**
      * referencia al problema a resolver
@@ -15,10 +23,16 @@ public class HeuristicaMC implements HeuristicaTSP {
     private MapaTSP mapa;
 
     /**
-     * dato miembro para almacenar las rutas aleatorias
-     */
-    private ArrayList<Ruta> rutas;
+     * array de indices de ciudades
+      */
+    private List<Integer> indices;
 
+    /**
+     * Constructor de las variables tipo static
+     */
+    static {
+        FACTOR = 10000;
+    }
 
     /**
      * constructor de la clase
@@ -29,14 +43,17 @@ public class HeuristicaMC implements HeuristicaTSP {
         // se asigna el dato miembro mapa
         this.mapa = mapa;
 
-        // se incializan los array vacios
-        rutas = new ArrayList<>();
+        // El numero de iteraciones sera directamente proporcional a la dimension del problema
+        iteraciones = this.mapa.obtenerDimension() * FACTOR;
+
+        // se inicializa la lista de indices vacia
+        indices = new ArrayList<>();
     }
 
     /**
      * metodo de resolucion mediante heuristica montecarlo
      *
-     * @return
+     * @return la ruta optima
      */
     public Ruta resolver() {
         System.out.println("Interfaz HeuristicaMC");
@@ -45,16 +62,22 @@ public class HeuristicaMC implements HeuristicaTSP {
         // NOTA: por implementar. Pueden implementarse los
         // metodos auxiliares que se considere oportuno
 
+        ArrayList<Ruta> rutas = new ArrayList<>();
         Ruta resultado;
 
-        // 1. Obtener las rutas aleatorias y sus costes asociados
-        for (int i = 0; i < HeuristicaMC.iteraciones; i++) {
-            Ruta r = this.rutaAleatoria();
-            this.rutas.add(r);
+        // Almacenar los indices de las ciudades
+        for (int i=0; i < this.mapa.obtenerDimension(); i++) {
+            this.indices.add(i);
         }
 
-        // 2. Obtener cual de las rutas tiene menor coste y devolver la ruta con menor coste
-        resultado = this.obtenerRutaMenorCoste();
+        // Obtener las rutas aleatorias
+        for (int i = 0; i < this.iteraciones; i++) {
+            Ruta r = this.rutaAleatoria();
+            rutas.add(r);
+        }
+
+        // Obtener cual de las rutas tiene menor coste y devolver la ruta con menor coste
+        resultado = this.obtenerRutaMenorCoste(rutas);
 
         System.out.println("RESULTADO MC:");
         System.out.println(resultado.toString());
@@ -63,39 +86,43 @@ public class HeuristicaMC implements HeuristicaTSP {
         return resultado;
     }
 
+    /**
+     * Metodo para generar rutas aleatorias
+     * @return una ruta aleatoria
+     */
     private Ruta rutaAleatoria() {
         Ruta resultado = new Ruta();
 
-        this.completarRuta(resultado);
+        // Desordenar de forma aleatoria el array de indices
+        Collections.shuffle(indices);
+
+        // Completar la ruta aleatoria con las ciudades según la lista de indices barajados
+        for(int i: this.indices) {
+            // Añadir la ciudad a la ruta
+            double coste = resultado.calcularLongitud() == 0 ?
+                    0.0: this.mapa.calcularDistancia(resultado.obtenerUltimo(),this.mapa.obtenerPunto(i));
+            resultado.agregar(this.mapa.obtenerPunto(i), coste);
+        }
 
         // Añadir el punto de vuelta a la primera ciudad a la ruta
-        double coste = resultado.calcularLongitud() == 0? 0.0: this.mapa.calcularDistancia(resultado.obtenerPunto(resultado.calcularLongitud()-1),resultado.obtenerPunto(0));
+        double coste = resultado.calcularLongitud() == 0 ?
+                0.0: this.mapa.calcularDistancia(resultado.obtenerUltimo(),resultado.obtenerPunto(0));
         resultado.agregar(resultado.obtenerPunto(0), coste);
 
+        // Devolver la ruta aleatoria generada
         return resultado;
     }
 
 
-    private void completarRuta(Ruta ruta){
+    /**
+     * Método para obtener la ruta de menor coste
+     * @param rutas ArrayList de rutas a comparar
+     * @return ruta de menor coste
+     */
+    private Ruta obtenerRutaMenorCoste(ArrayList<Ruta> rutas) {
+        Ruta rutaMenorCoste = rutas.size()>0? rutas.get(0) : null;
 
-        int siguienteIndice =  new Random().nextInt(this.mapa.obtenerDimension());
-        Punto siguientePunto = this.mapa.obtenerPunto(siguienteIndice);
-        if(!ruta.contiene(siguientePunto)) {
-            // Añadir el punto a la ruta
-            double coste = ruta.calcularLongitud() == 0 ? 0.0: this.mapa.calcularDistancia(ruta.obtenerPunto(ruta.calcularLongitud()-1),siguientePunto);
-            ruta.agregar(siguientePunto, coste);
-        }
-
-        // Re
-        if(ruta.calcularLongitud() < this.mapa.obtenerDimension()) {
-           this.completarRuta(ruta);
-        }
-    }
-
-    private Ruta obtenerRutaMenorCoste() {
-        Ruta rutaMenorCoste = rutas.get(0);
-
-        for(Ruta ruta : this.rutas) {
+        for(Ruta ruta : rutas) {
             if (ruta.obtenerCoste() < rutaMenorCoste.obtenerCoste()) {
                 rutaMenorCoste = ruta;
             }
