@@ -1,3 +1,8 @@
+package modelo;
+
+import heuristicas.*;
+import vista.Visualizador;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;

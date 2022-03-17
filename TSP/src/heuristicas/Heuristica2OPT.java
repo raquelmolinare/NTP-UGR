@@ -1,3 +1,8 @@
+package heuristicas;
+
+import modelo.MapaTSP;
+import modelo.Ruta;
+
 import java.util.Random;
 
 public class Heuristica2OPT implements HeuristicaTSP{
@@ -35,7 +40,7 @@ public class Heuristica2OPT implements HeuristicaTSP{
 
     @Override
     public Ruta resolver() {
-        System.out.println("Interfaz Heuristica2OPT");
+        System.out.println("Interfaz heuristicas.Heuristica2OPT");
         System.out.println("resolucion mediante la heuristica 2opt");
 
         Ruta optima = heuristica.resolver();

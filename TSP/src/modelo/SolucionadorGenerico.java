@@ -1,3 +1,9 @@
+package modelo;
+
+import heuristicas.*;
+import vista.VisualizadorGrafico;
+import vista.VisualizadorTexto;
+
 /**
  * No es preciso crear una clase especifica para cada combinacion
  * de visualizacion - distancia - heuristica. Basta con disponer
@@ -44,9 +50,11 @@ public class SolucionadorGenerico extends MapaTSP{
       }
 
       // En el caso en el que la heuristica a procesar sea 2opt lleva asociada esta otra heuristica
-      switch (modoHeuristica2opt) {
-         case MC -> inicioOPT = new HeuristicaMC(objeto);
-         case VMC -> inicioOPT = new HeuristicaVMC(objeto);
+      if(modoHeuristica2opt !=  null) {
+         switch (modoHeuristica2opt) {
+            case MC -> inicioOPT = new HeuristicaMC(objeto);
+            case VMC -> inicioOPT = new HeuristicaVMC(objeto);
+         }
       }
 
       // se procesa la heuristica a considerar

@@ -1,3 +1,7 @@
+package heuristicas;
+
+import modelo.Punto;
+
 /**
  * interfaz para calculo de distancia entre dos puntos
  */

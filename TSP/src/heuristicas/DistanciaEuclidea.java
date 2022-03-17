@@ -1,3 +1,8 @@
+package heuristicas;
+
+import modelo.Punto;
+import modelo.Utilidades;
+
 /**
  * clase para aportar la funcionalidad de calculo de distancia
  * euclidea

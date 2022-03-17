@@ -1,3 +1,9 @@
+package heuristicas;
+
+import modelo.MapaTSP;
+import modelo.Punto;
+import modelo.Ruta;
+
 import java.util.ArrayList;
 
 /**
@@ -25,7 +31,7 @@ public class HeuristicaVMC implements HeuristicaTSP{
     * @return la ruta optima
     */
    public Ruta resolver(){
-      System.out.println("Interfaz HeuristicaVMC");
+      System.out.println("Interfaz heuristicas.HeuristicaVMC");
       System.out.println("resolucion mediante vecino mas cercano");
 
       // NOTA: por implementar. Pueden implementarse los

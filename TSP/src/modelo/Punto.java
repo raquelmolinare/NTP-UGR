@@ -1,3 +1,5 @@
+package modelo;
+
 /**
  * clase base para representar ubicaciones en un problema
  * del TSP

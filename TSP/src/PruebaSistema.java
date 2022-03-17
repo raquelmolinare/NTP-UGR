@@ -1,3 +1,5 @@
+import modelo.*;
+
 /**
  * Clase ProblemaPrueba para probar la funcionalidad de
  * creacion de objetos de la clase Problema mediante la
@@ -12,7 +14,7 @@ public class PruebaSistema {
       // se crea el objeto mediante el metodo factoria
       MapaTSP objeto = SolucionadorGenerico.factoria(nombreArchivo,
                  ModoVista.GRAFICO, ModoDistancia.EUCLIDEA,
-                 ModoHeuristica.OPT2, Modo2OPT.MC);
+                 ModoHeuristica.MC);
 
       // se llama al metodo de resolucion
       objeto.resolver();

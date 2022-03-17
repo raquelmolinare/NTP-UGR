@@ -1,3 +1,8 @@
+package vista;
+
+import modelo.MapaTSP;
+import modelo.Ruta;
+
 /**
  * clase para implementar funcion de visualizacion mediante texto
  */

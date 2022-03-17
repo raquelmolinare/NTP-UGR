@@ -1,5 +1,6 @@
+package modelo;
+
 import java.util.ArrayList;
-import java.util.Optional;
 
 /**
  * clase para almacenar recorridos de ciudades

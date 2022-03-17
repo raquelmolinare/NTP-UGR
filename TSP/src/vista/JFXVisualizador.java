@@ -1,3 +1,4 @@
+package vista;
 
 import javafx.application.Application;
 
@@ -9,6 +10,8 @@ import javafx.stage.Stage;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
+
+import modelo.*;
 
 /**
  * clase para visualizar los datos de un mapa mediante JFX

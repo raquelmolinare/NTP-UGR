@@ -1,3 +1,8 @@
+package vista;
+
+import modelo.MapaTSP;
+import modelo.Ruta;
+
 /**
  * interfaz para visualizacion de problemas y rutas de
  * TSP

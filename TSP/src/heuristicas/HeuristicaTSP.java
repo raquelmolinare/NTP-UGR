@@ -1,3 +1,7 @@
+package heuristicas;
+
+import modelo.Ruta;
+
 /**
  * interfaz para el metodo de resolucion del problema
  * mediante alguna heuristica

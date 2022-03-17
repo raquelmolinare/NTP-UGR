@@ -1,3 +1,8 @@
+package vista;
+
+import modelo.MapaTSP;
+import modelo.Ruta;
+
 public class VisualizadorGrafico implements Visualizador{
    /**
     * dato miembro para acceder a la ventana de visualizacion

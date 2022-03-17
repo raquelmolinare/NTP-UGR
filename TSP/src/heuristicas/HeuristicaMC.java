@@ -1,3 +1,8 @@
+package heuristicas;
+
+import modelo.MapaTSP;
+import modelo.Ruta;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -55,7 +60,7 @@ public class HeuristicaMC implements HeuristicaTSP {
      * @return la ruta optima
      */
     public Ruta resolver() {
-        System.out.println("Interfaz HeuristicaMC");
+        System.out.println("Interfaz heuristicas.HeuristicaMC");
         System.out.println("resolucion mediante simulacion Montecarlo");
 
         // NOTA: por implementar. Pueden implementarse los
