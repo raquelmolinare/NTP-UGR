@@ -1,5 +1,3 @@
-import java.util.Map;
-
 /**
  * No es preciso crear una clase especifica para cada combinacion
  * de visualizacion - distancia - heuristica. Basta con disponer
@@ -29,8 +27,9 @@ public class SolucionadorGenerico extends MapaTSP{
     * @return
     */
    public static MapaTSP factoria(String nombreArchivo, ModoVista modoVista, ModoDistancia modoDistancia,
-                                               ModoHeuritica modoHeuristica){
+                                  ModoHeuristica modoHeuristica, Modo2OPT modoHeuristica2opt ){
       MapaTSP objeto = new SolucionadorGenerico(nombreArchivo);
+      HeuristicaTSP inicioOPT = null;
 
       // se procesa el modo de visualizacion deseado
       switch (modoVista){
@@ -44,11 +43,17 @@ public class SolucionadorGenerico extends MapaTSP{
          case MANHATTAN -> objeto.calculadorDistancia = new DistanciaManhattan();
       }
 
+      // En el caso en el que la heuristica a procesar sea 2opt lleva asociada esta otra heuristica
+      switch (modoHeuristica2opt) {
+         case MC -> inicioOPT = new HeuristicaMC(objeto);
+         case VMC -> inicioOPT = new HeuristicaVMC(objeto);
+      }
+
       // se procesa la heuristica a considerar
       switch (modoHeuristica) {
          case MC -> objeto.heuristica = new HeuristicaMC(objeto);
          case VMC -> objeto.heuristica = new HeuristicaVMC(objeto);
-         case OPT2 -> objeto.heuristica = new Heuristica2OPT(objeto, new HeuristicaMC(objeto));
+         case OPT2 -> objeto.heuristica = new Heuristica2OPT(objeto, inicioOPT);
       }
 
       // se calculan las distancias ahora que el objeto esta
@@ -58,4 +63,10 @@ public class SolucionadorGenerico extends MapaTSP{
       // se devuelve el objeto una vez configurado
       return objeto;
    }
+
+   public static MapaTSP factoria(String nombreArchivo, ModoVista modoVista, ModoDistancia modoDistancia,
+                                  ModoHeuristica modoHeuristica){
+      return SolucionadorGenerico.factoria(nombreArchivo, modoVista, modoDistancia, modoHeuristica, null);
+   }
+
 }

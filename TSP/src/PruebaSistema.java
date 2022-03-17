@@ -8,10 +8,11 @@ public class PruebaSistema {
       // se prueba con un archivo pequeño, de 10 ciudades
       String nombreArchivo = "./data/small10.tsp";
 
+      // 2OPT
       // se crea el objeto mediante el metodo factoria
       MapaTSP objeto = SolucionadorGenerico.factoria(nombreArchivo,
                  ModoVista.GRAFICO, ModoDistancia.EUCLIDEA,
-                 ModoHeuritica.VMC);
+                 ModoHeuristica.OPT2, Modo2OPT.MC);
 
       // se llama al metodo de resolucion
       objeto.resolver();
@@ -20,5 +21,6 @@ public class PruebaSistema {
       // optima
 //      objeto.mostrarMapa();
       objeto.mostrarRuta();
+
    }
 }
