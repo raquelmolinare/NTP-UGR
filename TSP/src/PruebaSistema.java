@@ -7,7 +7,7 @@ import modelo.*;
  */
 public class PruebaSistema {
    public static void main(String args[]){
-      // se prueba con un archivo pequeño, de 10 ciudades
+      // nombre archivo con los datos del problema
       String nombreArchivo = "./data/small10.tsp";
 
       // 2OPT
