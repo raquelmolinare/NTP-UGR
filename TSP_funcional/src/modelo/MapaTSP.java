@@ -169,13 +169,14 @@ public class MapaTSP {
       // Para cada punto se calcula su distancia al siguiente y la asociada
       puntos.forEach(punto -> {
          puntos.stream().
-                 filter(p -> Integer.parseInt(p.getEtiqueta()) > Integer.parseInt(punto.getEtiqueta())).
+                 filter(p ->  puntos.indexOf(p) >  puntos.indexOf(punto)).
                  forEach(p -> {
-                     int i = Integer.parseInt(punto.getEtiqueta())-1;
-                     int j = Integer.parseInt(p.getEtiqueta())-1;
+                     int i = puntos.indexOf(punto);
+                     int j = puntos.indexOf(p);
                      distancias[i][j] = calcularDistancia(punto, p);
                      distancias[j][i] = distancias[i][j];
                });
          });
    }
+
 }
