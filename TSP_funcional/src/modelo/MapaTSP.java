@@ -3,10 +3,13 @@ package modelo;
 import heuristicas.*;
 import vista.Visualizador;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * clase para almacenar mapas que se resolveran mediante TSP
@@ -121,53 +124,37 @@ public class MapaTSP {
    private void leerArchivo(){
       // se procesa el contenido del archivo
       try{
-         // se crean objetos necesarios para la lectura
-         FileReader lector = new FileReader(nombre);
-         BufferedReader lectorb = new BufferedReader(lector);
+         // Leer las lineas del archivo
+         Stream<String> lineas = Files.lines(Paths.get(this.nombre));
 
-         // lectura de la primera linea: se eliminan los+
-         // blancos iniciales
-         String linea = lectorb.readLine().stripLeading();
+         // Para cada linea se genera un objeto de la clase Punto y se almacena toda la coleccion de puntos
+         // Evitando la cabecera del archivo que contienene la dimension del problema
+         puntos = lineas.filter(linea -> !linea.contains("DIMENSION")).map(this::procesarLineaPunto).
+                 collect(Collectors.toList());
 
-         // extraigo las palabras de la linea
-         String [] datos = linea.split("\\s+");
-
-         // se comprueba que hay dos datos en la linea
-         if(datos.length != 2){
-            System.out.println("error en linea de cabecera");
-            System.exit(-1);
-         }
-
-         // se obtiene la dimension
-         int dimension = Integer.parseInt(datos[1]);
-
-         // bucle de lectura de puntos
-         for(int i=0; i < dimension; i++){
-            // lectura de linea
-            linea = lectorb.readLine().stripLeading();
-
-            // se extraen las palabras
-            datos = linea.split("\\s+");
-
-            // se comprueba el formato
-            if(datos.length != 3){
-               System.out.println("error en linea de datos");
-               System.out.println(linea);
-               System.exit(-1);
-            }
-
-            // se crea el punto con los datos leidos
-            Punto punto = new Punto(datos[0],
-                    Double.parseDouble(datos[1]),
-                    Double.parseDouble(datos[2]));
-
-            // se agrega a la coleccion de puntos
-            puntos.add(punto);
-         }
       }catch(Exception e){
+         // Mostrar el mensaje de la excepción
+         System.out.println(e);
          System.out.println("Error en apertura de archivo");
          System.exit(-1);
       }
+   }
+
+
+   private Punto procesarLineaPunto(String linea) {
+      // Patron para extraer las palabras de la línea --> etiqueta x y
+      Pattern pattern = Pattern.compile("\\s+");
+
+      // Se procesa la linea
+      List<String> datos = pattern.splitAsStream(linea).collect(Collectors.toList());
+
+      // Se crea el punto con los datos leidos
+      Punto punto = new Punto(datos.get(0),
+              Double.parseDouble(datos.get(1)),
+              Double.parseDouble(datos.get(2)));
+
+      // se devuelve el punto creado a partir de la linea
+      return punto;
    }
 
    /**
