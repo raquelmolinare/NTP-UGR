@@ -31,6 +31,13 @@ public class Punto {
    }
 
    /**
+    * metodo de acceso al dato miembro etiqueta
+    */
+   public String getEtiqueta(){
+      return etiqueta;
+   }
+
+   /**
     * metodo de acceso al dato miembro X
     */
    public double getX(){

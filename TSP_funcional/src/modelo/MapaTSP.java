@@ -166,13 +166,16 @@ public class MapaTSP {
       // se reserva espacio para el array de distancias
       distancias = new double[dimension][dimension];
 
-      // bucle de calculo de distancias
-      for(int i=0; i < dimension; i++){
-         for(int j=i+1; j < dimension; j++){
-            distancias[i][j] = calcularDistancia(puntos.get(i),
-                    puntos.get(j));
-            distancias[j][i] = distancias[i][j];
-         }
-      }
+      // Para cada punto se calcula su distancia al siguiente y la asociada
+      puntos.forEach(punto -> {
+         puntos.stream().
+                 filter(p -> Integer.parseInt(p.getEtiqueta()) > Integer.parseInt(punto.getEtiqueta())).
+                 forEach(p -> {
+                     int i = Integer.parseInt(punto.getEtiqueta())-1;
+                     int j = Integer.parseInt(p.getEtiqueta())-1;
+                     distancias[i][j] = calcularDistancia(punto, p);
+                     distancias[j][i] = distancias[i][j];
+               });
+         });
    }
 }
