@@ -3,7 +3,10 @@ package heuristicas;
 import modelo.MapaTSP;
 import modelo.Ruta;
 
+import java.util.Collections;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.IntStream;
 
 public class Heuristica2OPT implements HeuristicaTSP{
 
@@ -43,25 +46,22 @@ public class Heuristica2OPT implements HeuristicaTSP{
         System.out.println("Interfaz heuristicas.Heuristica2OPT");
         System.out.println("resolucion mediante la heuristica 2opt");
 
-        Ruta optima = heuristica.resolver();
+        AtomicReference<Ruta> optima = new AtomicReference<>(heuristica.resolver());
 
-        for(int i=0; i<=K; i++) {
-            for(int j=i+1; j<=K; j++) {
-                // Generar la nueva ruta
-                Ruta nueva = this.swaopt( optima, i, j);
-
-                // Comparar los costes
-                if( nueva.obtenerCoste() < optima.obtenerCoste()){
-                    optima = nueva;
-                }
+        IntStream.range(0, K+1).forEach(i -> IntStream.range(i+1, K+1).forEach(j -> {
+            // Generar la nueva ruta
+            Ruta nueva = this.swaopt(optima.get(), i, j);
+            // Comparar los costes
+            if( nueva.obtenerCoste() < optima.get().obtenerCoste()){
+                optima.set(nueva);
             }
-        }
+        }));
 
         System.out.println("RESULTADO 2OPT:");
-        System.out.println(optima.toString());
+        System.out.println(optima.get().toString());
 
         // Devolver la ruta optima
-        return optima;
+        return optima.get();
     }
 
     /**
@@ -75,40 +75,31 @@ public class Heuristica2OPT implements HeuristicaTSP{
 
         // Nueva ruta vacia
         Ruta nueva = new Ruta();
-        double coste;
 
         // Copiar las posiciones [0, inicio) tal cual
-        for(int i=0; i < inicio; i++) {
-            // Evitar repeticiones por la primera y ultima ciudad
-            if( !nueva.contiene(ruta.obtenerPunto(i)) ) {
-                coste = nueva.calcularLongitud() == 0 ?
+        IntStream.range(0, inicio).filter( i-> !nueva.contiene(ruta.obtenerPunto(i))).forEach( i ->{
+                double coste = nueva.calcularLongitud() == 0 ?
                         0.0 : this.mapa.calcularDistancia(nueva.obtenerUltimo(),ruta.obtenerPunto(i));
                 nueva.agregar(ruta.obtenerPunto(i), coste);
-            }
-        }
+        });
+
 
         // Copiar las posiciones [inicio,fin] en orden inverso
-        for(int i=fin; i>=inicio; i--) {
-            // Evitar repeticiones
-            if( !nueva.contiene(ruta.obtenerPunto(i)) ) {
-                coste = nueva.calcularLongitud() == 0 ?
-                        0.0 : this.mapa.calcularDistancia(nueva.obtenerUltimo(),ruta.obtenerPunto(i));
-                nueva.agregar(ruta.obtenerPunto(i), coste);
-            }
-        }
+        IntStream.range(inicio, fin+1).boxed().sorted(Collections.reverseOrder()).filter( i-> !nueva.contiene(ruta.obtenerPunto(i))).forEach( i ->{
+            double coste = nueva.calcularLongitud() == 0 ?
+                    0.0 : this.mapa.calcularDistancia(nueva.obtenerUltimo(),ruta.obtenerPunto(i));
+            nueva.agregar(ruta.obtenerPunto(i), coste);
+        });
 
         // Copiar los puntos (fin, n) tal cual
-        for(int i=fin+1; i < ruta.calcularLongitud(); i++) {
-            // Evitar repeticiones
-            if( !nueva.contiene(ruta.obtenerPunto(i)) ) {
-                coste = nueva.calcularLongitud() == 0 ?
-                        0.0 : this.mapa.calcularDistancia(nueva.obtenerUltimo(),ruta.obtenerPunto(i));
-                nueva.agregar(ruta.obtenerPunto(i), coste);
-            }
-        }
+        IntStream.range(fin+1, ruta.calcularLongitud()).filter( i-> !nueva.contiene(ruta.obtenerPunto(i))).forEach( i ->{
+            double coste = nueva.calcularLongitud() == 0 ?
+                    0.0 : this.mapa.calcularDistancia(nueva.obtenerUltimo(),ruta.obtenerPunto(i));
+            nueva.agregar(ruta.obtenerPunto(i), coste);
+        });
 
         //Incuimos la ciudad inicial para cerrar la ruta
-        coste = nueva.calcularLongitud() == 0 ?
+        double coste = nueva.calcularLongitud() == 0 ?
                 0.0 : this.mapa.calcularDistancia(nueva.obtenerUltimo(),nueva.obtenerPunto(0));
         nueva.agregar(nueva.obtenerPunto(0), coste);
 
