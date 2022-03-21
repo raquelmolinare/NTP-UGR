@@ -5,6 +5,7 @@ import modelo.Punto;
 import modelo.Ruta;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 /**
  * interfaz para proporcionar el comportamiento de la heuristica
@@ -41,24 +42,20 @@ public class HeuristicaVMC implements HeuristicaTSP{
       ArrayList<Ruta> rutas = new ArrayList<>();
 
       // Para cada ciudad i
-      for( int i=0; i < mapa.obtenerDimension(); i++) {
-
+      this.mapa.obtenerPuntos().forEach(ciudad -> {
          Ruta resultado = new Ruta();
-
-         // La primera ciudad de la ruta será vi
-         Punto vi = mapa.obtenerPunto(i);
 
          // Añadir la primera ciudad al recorrido
          double coste = resultado.calcularLongitud() == 0 ?
-                 0.0 : this.mapa.calcularDistancia(resultado.obtenerUltimo(),vi);
-         resultado.agregar(vi, coste);
+                 0.0 : this.mapa.calcularDistancia(resultado.obtenerUltimo(),ciudad);
+         resultado.agregar(ciudad, coste);
 
          // Completar la ruta
          this.completarRuta(resultado);
 
          // Se agrega la ruta nueva a la coleccion de rutas
          rutas.add(resultado);
-      }
+      });
 
       // Una vez aqui el array de rutas tiene una ruta de vecino mas cercano por cada ciudad del mapa
       // Obtener de todas las rutas la ruta optima, es decir la de menor coste
@@ -104,21 +101,11 @@ public class HeuristicaVMC implements HeuristicaTSP{
     * @return devuelve el punto mas cercano no visitado
     */
    private Punto puntoMasCercanoValido(Ruta ruta) {
-      Punto masCercano = null;
-      double distanciaMinima = Double.MAX_VALUE;
-
-      // Se recorren los puntos del mapa
-      for(Punto p: this.mapa.obtenerPuntos()) {
-         // Si es un punto no contenido ya en la ruta y tiene una distancia menor
-         if( !ruta.contiene(p) && this.mapa.calcularDistancia(ruta.obtenerUltimo(), p) < distanciaMinima) {
-            // se actualiza el valor del punto mas cercano
-            masCercano = p;
-            distanciaMinima = this.mapa.calcularDistancia(ruta.obtenerUltimo(), p);
-         }
-      }
-
-      // devolver el punto mas cercano no visitado
-      return masCercano;
+      // Se recorren los puntos del mapa buscando aquel que no está ya en la ruta y cuya distancia al ultimo punto es minima
+      // se devuelve el punto que reuna las condiciones anteriores
+      return this.mapa.obtenerPuntos().stream().
+              filter( punto -> !ruta.contiene(punto)).
+              min(Comparator.comparingDouble(punto -> this.mapa.calcularDistancia(ruta.obtenerUltimo(), punto))).get();
    }
 
    /**
@@ -127,14 +114,6 @@ public class HeuristicaVMC implements HeuristicaTSP{
     * @return ruta de menor coste
     */
    private Ruta obtenerRutaMenorCoste(ArrayList<Ruta> rutas) {
-      Ruta rutaMenorCoste = rutas.size()>0? rutas.get(0) : null;
-
-      for(Ruta ruta : rutas) {
-         if (ruta.obtenerCoste() < rutaMenorCoste.obtenerCoste()) {
-            rutaMenorCoste = ruta;
-         }
-      }
-
-      return rutaMenorCoste;
+      return rutas.stream().min(Ruta::compararCoste).get();
    }
 }
