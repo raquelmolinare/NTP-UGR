@@ -6,6 +6,7 @@ import modelo.Ruta;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * interfaz para proporcionar el comportamiento de la heuristica
@@ -70,15 +71,10 @@ public class HeuristicaMC implements HeuristicaTSP {
         Ruta resultado;
 
         // Almacenar los indices de las ciudades
-        for (int i=0; i < this.mapa.obtenerDimension(); i++) {
-            this.indices.add(i);
-        }
+        IntStream.range(0, this.mapa.obtenerDimension()).forEach(indices::add);
 
         // Obtener las rutas aleatorias
-        for (int i = 0; i < this.iteraciones; i++) {
-            Ruta r = this.rutaAleatoria();
-            rutas.add(r);
-        }
+        IntStream.range(0, this.iteraciones).forEach(i -> rutas.add(this.rutaAleatoria()));
 
         // Obtener cual de las rutas tiene menor coste y devolver la ruta con menor coste
         resultado = this.obtenerRutaMenorCoste(rutas);
@@ -101,12 +97,12 @@ public class HeuristicaMC implements HeuristicaTSP {
         Collections.shuffle(indices);
 
         // Completar la ruta aleatoria con las ciudades según la lista de indices barajados
-        for(int i: this.indices) {
+        this.indices.forEach(i -> {
             // Añadir la ciudad a la ruta
             double coste = resultado.calcularLongitud() == 0 ?
                     0.0: this.mapa.calcularDistancia(resultado.obtenerUltimo(),this.mapa.obtenerPunto(i));
             resultado.agregar(this.mapa.obtenerPunto(i), coste);
-        }
+        });
 
         // Añadir el punto de vuelta a la primera ciudad a la ruta
         double coste = resultado.calcularLongitud() == 0 ?
@@ -124,15 +120,7 @@ public class HeuristicaMC implements HeuristicaTSP {
      * @return ruta de menor coste
      */
     private Ruta obtenerRutaMenorCoste(ArrayList<Ruta> rutas) {
-        Ruta rutaMenorCoste = rutas.size()>0? rutas.get(0) : null;
-
-        for(Ruta ruta : rutas) {
-            if (ruta.obtenerCoste() < rutaMenorCoste.obtenerCoste()) {
-                rutaMenorCoste = ruta;
-            }
-        }
-
-        return rutaMenorCoste;
+        return rutas.stream().min(Ruta::compararCoste).get();
     }
 
 }

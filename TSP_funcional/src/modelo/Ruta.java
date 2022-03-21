@@ -98,6 +98,16 @@ public class Ruta {
       secuencia.remove(secuencia.size()-1);
    }
 
+
+   /**
+    *  Metodo para comparar el coste
+    * @param r ruta a comparar
+    * @return -1 0 1 segun si es menor igual o mayor
+    */
+   public int compararCoste(Ruta r) {
+     return Double.compare(this.coste, r.obtenerCoste());
+   }
+
    /**
     * metodo toString
     * @return
