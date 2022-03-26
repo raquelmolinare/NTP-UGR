@@ -64,9 +64,6 @@ public class HeuristicaMC implements HeuristicaTSP {
         System.out.println("Interfaz heuristicas.HeuristicaMC");
         System.out.println("resolucion mediante simulacion Montecarlo");
 
-        // NOTA: por implementar. Pueden implementarse los
-        // metodos auxiliares que se considere oportuno
-
         ArrayList<Ruta> rutas = new ArrayList<>();
         Ruta resultado;
 

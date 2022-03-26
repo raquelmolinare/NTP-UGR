@@ -81,7 +81,10 @@ public class Ruta {
       return coste;
    }
 
-   // NUEVO
+   /**
+    * Metodo para obtener el ultimo punto de la ruta
+    * @return ultimo punto de la ruta
+    */
    public Punto obtenerUltimo() {
       if(this.secuencia.size() > 0) {
          return this.secuencia.get(this.secuencia.size()-1);
@@ -89,13 +92,6 @@ public class Ruta {
       else {
          return null;
       }
-   }
-
-   /**
-    * TODO
-    */
-   public void quitarFin(){
-      secuencia.remove(secuencia.size()-1);
    }
 
    /**

@@ -74,7 +74,10 @@ public class MapaTSP {
       return puntos.get(indice);
    }
 
-   // NUEVO
+   /**
+    * Metodo para obtener los puntos del mapa
+    * @return puntos
+    */
    public  List<Punto> obtenerPuntos() {
       return this.puntos;
    }
@@ -110,7 +113,7 @@ public class MapaTSP {
     * @return
     */
    public Ruta resolver(){
-      // NUEVO
+      // asignar la solucion
       solucion = heuristica.resolver();
       return solucion;
    }

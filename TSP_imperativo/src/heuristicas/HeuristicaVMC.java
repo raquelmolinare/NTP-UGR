@@ -34,9 +34,6 @@ public class HeuristicaVMC implements HeuristicaTSP{
       System.out.println("Interfaz heuristicas.HeuristicaVMC");
       System.out.println("resolucion mediante vecino mas cercano");
 
-      // NOTA: por implementar. Pueden implementarse los
-      // metodos auxiliares que se considere oportuno
-
       Ruta optima = new Ruta();
       ArrayList<Ruta> rutas = new ArrayList<>();
 
