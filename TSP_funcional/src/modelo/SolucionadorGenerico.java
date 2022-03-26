@@ -64,10 +64,6 @@ public class SolucionadorGenerico extends MapaTSP{
          case OPT2 -> objeto.heuristica = new Heuristica2OPT(objeto, inicioOPT);
       }
 
-      // se calculan las distancias ahora que el objeto esta
-      // creado de forma completa
-      objeto.calcularDistancias();
-
       // se devuelve el objeto una vez configurado
       return objeto;
    }

@@ -16,13 +16,10 @@ import java.util.stream.Stream;
  */
 public class MapaTSP {
    // nombre del archivo asociado
-   private String nombre;
+   private final String nombre;
 
    // array de puntos
    private List<Punto> puntos;
-
-   // almacen de distancias
-   private double distancias[][];
 
    // el comportamiento para mostrar se delega en
    // la visualizador correspondiente
@@ -158,28 +155,6 @@ public class MapaTSP {
 
       // se devuelve el punto creado a partir de la linea
       return punto;
-   }
-
-   /**
-    * metodo de calculo de distancias
-    */
-   protected void calcularDistancias(){
-      int dimension = puntos.size();
-
-      // se reserva espacio para el array de distancias
-      distancias = new double[dimension][dimension];
-
-      // Para cada punto se calcula su distancia al siguiente y la asociada
-      puntos.forEach(punto -> {
-         puntos.stream().
-                 filter(p ->  puntos.indexOf(p) >  puntos.indexOf(punto)).
-                 forEach(p -> {
-                     int i = puntos.indexOf(punto);
-                     int j = puntos.indexOf(p);
-                     distancias[i][j] = calcularDistancia(punto, p);
-                     distancias[j][i] = distancias[i][j];
-               });
-         });
    }
 
 }
