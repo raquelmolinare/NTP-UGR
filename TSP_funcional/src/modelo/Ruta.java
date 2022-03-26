@@ -1,6 +1,7 @@
 package modelo;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 /**
  * clase para almacenar recorridos de ciudades
@@ -9,7 +10,7 @@ public class Ruta {
    /**
     * dato miembro para almacenar las ciudades recorridas
     */
-   private ArrayList<Punto> secuencia;
+   private final ArrayList<Punto> secuencia;
 
    /**
     * dato miembro para almacenar el coste asociado al recorrido
@@ -31,7 +32,8 @@ public class Ruta {
    /**
     * agrega punto nuevo a la ruta, sin hacer comprobacion
     * alguna
-    * @param punto
+    * @param punto a agregar en la ruta
+    * @param coste asociado a ir desde el último punto actual de la ruta al nuevo punto
     */
    public void agregar(Punto punto, double coste){
       secuencia.add(punto);
@@ -41,8 +43,8 @@ public class Ruta {
    /**
     * determina si la ruta contiene al punto pasado
     * como argumento
-    * @param punto
-    * @return
+    * @param punto a comprobar si esta ya en la ruta
+    * @return booleano
     */
    public boolean contiene(Punto punto){
       return secuencia.contains(punto);
@@ -51,7 +53,7 @@ public class Ruta {
    /**
     * devuelve la longitud de la secuencia, es decir,
     * el numero de puntos que contiene
-    * @return
+    * @return numero de puntos de puntos de la secuencia
     */
    public int calcularLongitud(){
       return secuencia.size();
@@ -59,8 +61,8 @@ public class Ruta {
 
    /**
     * devuelve el punto que ocupa una determinada posicion
-    * @param indice
-    * @return
+    * @param indice posicion a comprobar
+    * @return el punto que ocupa la posicion de indice
     */
    public Punto obtenerPunto(int indice){
       return secuencia.get(indice);
@@ -68,7 +70,7 @@ public class Ruta {
 
    /**
     * metodo para asignar el coste de la ruta
-    * @param coste
+    * @param coste nuevo coste de la ruta
     */
    public void asignarCoste(double coste){
       this.coste = coste;
@@ -92,12 +94,12 @@ public class Ruta {
    }
 
    /**
-    * TODO
+    * Metodo para obtener la secuencia de la ruta
+    * @return secuencia
     */
-   public void quitarFin(){
-      secuencia.remove(secuencia.size()-1);
+   public ArrayList<Punto> obtenerSecuencia(){
+      return secuencia;
    }
-
 
    /**
     *  Metodo para comparar el coste
@@ -110,17 +112,11 @@ public class Ruta {
 
    /**
     * metodo toString
-    * @return
+    * @return cadena de descripcion de la secuencia
     */
    public String toString(){
-      String salida = "Secuencia: ";
-      for(int i=0; i < secuencia.size(); i++){
-         Punto punto = secuencia.get(i);
-         salida += punto.toString();
-         if(i != secuencia.size()-1){
-            salida += " - ";
-         }
-      }
+      String salida = secuencia.stream().map(Punto::toString).collect(Collectors.joining(" - "));
+      salida  = "Secuencia: "+salida;
       salida += "\nCoste asociado: " + coste +"\n";
 
       // se devuelve la cadena

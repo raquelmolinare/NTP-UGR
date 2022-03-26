@@ -132,11 +132,10 @@ public class JFXVisualizador extends Application{
       linea.setLegendVisible(false);
 
       // lectura de datos a partir de la ruta
-      for(int i=0; i < ruta.calcularLongitud(); i++){
-         Punto punto = ruta.obtenerPunto(i);
-         //coordenadas.getData().add(new XYChart.Data(punto.getX(), punto.getY()));
+      ruta.obtenerSecuencia().forEach(punto -> {
          serie1.getData().add(new XYChart.Data(punto.getX(), punto.getY()));
-      }
+      });
+
       Punto inicio = ruta.obtenerPunto(0);
       serie2.getData().add(new XYChart.Data(inicio.getX(), inicio.getY()));
       Punto fin = ruta.obtenerPunto(ruta.calcularLongitud()-2);
@@ -184,10 +183,9 @@ public class JFXVisualizador extends Application{
       System.out.println("numero de puntos para pintar: " + mapa.obtenerDimension());
 
       // lectura de datos a partir del mapa
-      for(int i=0; i < mapa.obtenerDimension(); i++){
-         Punto punto = mapa.obtenerPunto(i);
+      mapa.obtenerPuntos().forEach(punto -> {
          coordenadas.getData().add(new XYChart.Data(punto.getX(), punto.getY()));
-      }
+      });
 
       // se agregan las coordenadas a los graficos
       scatterChart.getData().add(coordenadas);
