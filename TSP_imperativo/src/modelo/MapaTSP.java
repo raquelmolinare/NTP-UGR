@@ -18,9 +18,6 @@ public class MapaTSP {
    // array de puntos
    private List<Punto> puntos;
 
-   // almacen de distancias
-   private double distancias[][];
-
    // el comportamiento para mostrar se delega en
    // la visualizador correspondiente
    protected Visualizador visualizador;
@@ -173,22 +170,4 @@ public class MapaTSP {
       }
    }
 
-   /**
-    * metodo de calculo de distancias
-    */
-   protected void calcularDistancias(){
-      int dimension = puntos.size();
-
-      // se reserva espacio para el array de distancias
-      distancias = new double[dimension][dimension];
-
-      // bucle de calculo de distancias
-      for(int i=0; i < dimension; i++){
-         for(int j=i+1; j < dimension; j++){
-            distancias[i][j] = calcularDistancia(puntos.get(i),
-                    puntos.get(j));
-            distancias[j][i] = distancias[i][j];
-         }
-      }
-   }
 }
