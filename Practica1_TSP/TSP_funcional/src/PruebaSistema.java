@@ -8,7 +8,7 @@ import modelo.*;
 public class PruebaSistema {
    public static void main(String args[]){
       // nombre archivo con los datos del problema
-      String nombreArchivo = "./data/berlin52.tsp";
+      String nombreArchivo = "./data/small10.tsp";
 
       // Descomentar el modo que se quiera usar y comentar el resto
 
@@ -28,10 +28,10 @@ public class PruebaSistema {
       //---------------------------------------------------------------------------------------
 
       // se crea el objeto mediante el metodo factoria
-//      MapaTSP objeto2 = SolucionadorGenerico.factoria(
+//      MapaTSP objeto = SolucionadorGenerico.factoria(
 //              nombreArchivo,
 //              ModoVista.GRAFICO,
-//              ModoDistancia.EUCLIDEA,
+//              ModoDistancia.MANHATTAN,
 //              ModoHeuristica.VMC);
 
       //----------------------------------------------------------------------------------------
