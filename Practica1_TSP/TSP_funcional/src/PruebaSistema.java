@@ -17,22 +17,22 @@ public class PruebaSistema {
       //----------------------------------------------------------------------------------------
 
       // se crea el objeto mediante el metodo factoria
-//      MapaTSP objeto = SolucionadorGenerico.factoria(
-//              nombreArchivo,
-//              ModoVista.GRAFICO,
-//              ModoDistancia.EUCLIDEA,
-//              ModoHeuristica.MC);
+      MapaTSP objeto = SolucionadorGenerico.factoria(
+              nombreArchivo,
+              ModoVista.GRAFICO,
+              ModoDistancia.EUCLIDEA,
+              ModoHeuristica.MC);
 
       //----------------------------------------------------------------------------------------
       //                    HEURISTICA VECINO MAS CERCANO
       //---------------------------------------------------------------------------------------
 
       // se crea el objeto mediante el metodo factoria
-      MapaTSP objeto = SolucionadorGenerico.factoria(
-              nombreArchivo,
-              ModoVista.GRAFICO,
-              ModoDistancia.MANHATTAN,
-              ModoHeuristica.VMC);
+//      MapaTSP objeto = SolucionadorGenerico.factoria(
+//              nombreArchivo,
+//              ModoVista.GRAFICO,
+//              ModoDistancia.EUCLIDEA,
+//              ModoHeuristica.VMC);
 
       //----------------------------------------------------------------------------------------
       //                    HEURISTICA 2OPT
