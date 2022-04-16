@@ -28,11 +28,11 @@ public class PruebaSistema {
       //---------------------------------------------------------------------------------------
 
       // se crea el objeto mediante el metodo factoria
-//      MapaTSP objeto = SolucionadorGenerico.factoria(
-//              nombreArchivo,
-//              ModoVista.GRAFICO,
-//              ModoDistancia.MANHATTAN,
-//              ModoHeuristica.VMC);
+      MapaTSP objeto = SolucionadorGenerico.factoria(
+              nombreArchivo,
+              ModoVista.GRAFICO,
+              ModoDistancia.MANHATTAN,
+              ModoHeuristica.VMC);
 
       //----------------------------------------------------------------------------------------
       //                    HEURISTICA 2OPT
@@ -41,12 +41,12 @@ public class PruebaSistema {
       // se crea el objeto mediante el metodo factoria
       // Cambiar el Modo2OTP a MC o VMC
       // según si se quiera generar la primera mejor ruta con MonteCarlo o con el Vecino Más Cercano
-      MapaTSP objeto = SolucionadorGenerico.factoria(
-              nombreArchivo,
-              ModoVista.GRAFICO,
-              ModoDistancia.EUCLIDEA,
-              ModoHeuristica.OPT2,
-              Modo2OPT.MC);
+//      MapaTSP objeto = SolucionadorGenerico.factoria(
+//              nombreArchivo,
+//              ModoVista.GRAFICO,
+//              ModoDistancia.EUCLIDEA,
+//              ModoHeuristica.OPT2,
+//              Modo2OPT.MC);
 
 
 
