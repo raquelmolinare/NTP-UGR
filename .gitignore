@@ -10,3 +10,18 @@
 
 #general
 *.class
+
+# metals
+project/metals.sbt
+.metals
+
+# sbt
+project/project/
+project/target/
+target/
+
+# other
+.history
+.scala_dependencies
+.cache-main
+.bsp
