@@ -81,9 +81,17 @@ object FuncionesRecursivas {
    * Ejercicio 3: Búsqueda en colecciones ordenadas
    */
 
-  def busquedaASaltosGenerica(buscado: Int, coleccion: List[Int])  : Int = {
+  /**
+   * Búsqueda en colecciones ordenadas mediante el método de busqueda generica a saltos
+   * @param buscado elemento a buscar
+   * @param coleccion colección donde se busca DEBE ESTAR ORDENADA
+   * @param mayor función de condición de ordenación mayor
+   * @tparam A
+   * @return posición del elemento a buscar en la colección, si no se encuentra se devuelve -1
+   */
+  def busquedaASaltosGenerica [A] (buscado: A, coleccion: List[A], mayor: (A, A) => Boolean)  : Int = {
 
-    def busquedaLineal(coleccion: List[Int]) : Int = {
+    def busquedaLineal(coleccion: List[A]) : Int = {
       for (i <- coleccion.indices) {
         if (coleccion(i) == buscado) {
           return i
@@ -92,7 +100,7 @@ object FuncionesRecursivas {
       -1
     }
 
-    def go(coleccion: List[Int], tam_bloque: Int)  : Int = {
+    def go(coleccion: List[A], tam_bloque: Int)  : Int = {
 
       // Si la colección es vacía no se va a encontrar el elemento
       if (coleccion.isEmpty) {
@@ -106,7 +114,7 @@ object FuncionesRecursivas {
         // Si el elemento buscado es el ultimo elemento de este bloque el resultado es la posición del elemento
         primer_bloque.length-1
       }
-      else if (buscado > primer_bloque.last) {
+      else if ( mayor(buscado, primer_bloque.last)) {
         // Si el elemento buscado es mayor entonces se salta este bloque
         val restante = coleccion.takeRight(coleccion.length-tam_bloque)
         val pos_siguiente_bloque = go(restante, tam_bloque)
@@ -141,7 +149,16 @@ object FuncionesRecursivas {
   }
 
 
-  def busquedaMetodoFibonacci(buscado: Int, coleccion: List[Int])  : Int = {
+  /**
+   * Búsqueda en colecciones ordenadas mediante el método fibonacci
+   * @param buscado   valor a buscar
+   * @param coleccion colección donde se busca DEBE ESTAR ORDENADA
+   * @param mayor     función de condición de ordenación mayor
+   * @param menor     función de condición de ordenación menor
+   * @tparam A
+   * @return posición del elemento a buscar en la colección, si no se encuentra se devuelve -1
+   */
+  def busquedaMetodoFibonacci[A] (buscado: A, coleccion: List[A],  mayor: (A, A) => Boolean, menor: (A, A) => Boolean )  : Int = {
 
     def go(_f0: Int, _f1: Int, _f2: Int, _inicio :Int, _n : Int ) : Int = {
 
@@ -154,7 +171,7 @@ object FuncionesRecursivas {
       // y el tamaño de la secuencia n (como es un indice sera n-1)
       val indice = Math.min(f0 + inicio, _n-1)
 
-      if (buscado > coleccion(indice)) {
+      if (mayor(buscado, coleccion(indice))) {
         // si el valor a buscar es mayor, entonces los numeros de Fibonacci a considerar para la siguiente iteracion son
         // f0 = f1-f0 y f1 = f0 y el nuevo valor de inicio a usar será el tomado por indice.
         // por lo tanto tomando f2 = f1 entonces f1 = f0 y f0 = f2-f0 = f1(anterior)-f0
@@ -163,7 +180,7 @@ object FuncionesRecursivas {
         f0 = f2-f0
         inicio = indice
       }
-      else if (buscado < coleccion(indice)) {
+      else if (menor(buscado, coleccion(indice))) {
         // en caso contrario, si el valor buscado es menor, los numeros de Fibonacci a considerar son f0 = f0-(f1-f0)
         // y f1 = f1-f0  no cambia el valor de inicio
         // por lo tanto f2 = f0 entonces f1 = f1-f0 y f0 = f2-f1 = f0-(f1-f0)
@@ -211,6 +228,12 @@ object FuncionesRecursivas {
     go(f0,f1,f2,inicio,n)
   }
 
+  //Funcion de ordenación mayor
+  def mayor(a : Int, b : Int): Boolean = a > b
+
+  //Función de ordenación menor
+  def menor(a : Int, b : Int): Boolean = a < b
+
 
 
   /**
@@ -255,12 +278,12 @@ object FuncionesRecursivas {
     println()
     println()
     println("SOLUCIÓN BÚSQUEDA A SALTOS:")
-    val pos_saltos = busquedaASaltosGenerica(buscado, coleccion)
+    val pos_saltos = busquedaASaltosGenerica(buscado, coleccion, mayor)
     if (pos_saltos == -1) println("No se ha encontrado ese elemento en la lista")
     else println("Posición: "+pos_saltos)
     println()
     println("SOLUCIÓN BÚSQUEDA MÉTODO DE FIBONACCI:")
-    val pos_fibonacci = busquedaMetodoFibonacci(buscado, coleccion)
+    val pos_fibonacci = busquedaMetodoFibonacci(buscado, coleccion, mayor, menor)
     if (pos_fibonacci == -1) println("No se ha encontrado ese elemento en la lista")
     else println("Posición: "+pos_fibonacci)
 

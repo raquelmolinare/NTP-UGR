@@ -1,4 +1,4 @@
-import FuncionesRecursivas.{busquedaASaltosGenerica, busquedaMetodoFibonacci}
+import FuncionesRecursivas.{busquedaASaltosGenerica, busquedaMetodoFibonacci, mayor, menor}
 import org.scalameter.{Key, Warmer, config}
 
 object TiemposBusqueda extends App{
@@ -16,11 +16,11 @@ object TiemposBusqueda extends App{
 
   // se prueba el metodo de busqueda
   val saltos = standardConfig measure{
-    busquedaASaltosGenerica(buscado,coleccion)
+    busquedaASaltosGenerica(buscado,coleccion, mayor)
   }
 
   val fibonacci = standardConfig measure {
-    busquedaMetodoFibonacci(buscado,coleccion)
+    busquedaMetodoFibonacci(buscado,coleccion, mayor, menor)
   }
 
   // muestra los tiempos
