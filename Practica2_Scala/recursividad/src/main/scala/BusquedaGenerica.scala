@@ -30,7 +30,13 @@ object BusquedaGenerica {
       else if (buscado > primer_bloque.last) {
         // Si el elemento buscado es mayor entonces se salta este bloque
         val restante = coleccion.takeRight(coleccion.length-tam_bloque)
-        tam_bloque+metodoSaltos(restante, tam_bloque)
+        val pos_siguiente_bloque = metodoSaltos(restante, tam_bloque)
+        if (pos_siguiente_bloque != -1) {
+          tam_bloque+pos_siguiente_bloque
+        }
+        else {
+          -1
+        }
       }
       else {
         // Si el elemento buscado es menor al último elemento del bloque entonces
@@ -69,7 +75,7 @@ object BusquedaGenerica {
 
       // se determina el valor de indice a considerar, calculando el minimo entre (f0 + inicio)
       // y el tamaño de la secuencia n (como es un indice sera n-1)
-      val indice = Math.min(f0 + inicio, _n - 1)
+      val indice = Math.min(f0 + inicio, _n-1)
 
       if (buscado > coleccion(indice)) {
         // si el valor a buscar es mayor, entonces los numeros de Fibonacci a considerar para la siguiente iteracion son
