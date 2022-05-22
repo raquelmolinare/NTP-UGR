@@ -25,7 +25,7 @@ object BusquedaGenerica {
 
       if (buscado == primer_bloque.last) {
         // Si el elemento buscado es el ultimo elemento de este bloque
-        tam_bloque
+        primer_bloque.length-1
       }
       else if (buscado > primer_bloque.last) {
         // Si el elemento buscado es mayor entonces se salta este bloque
@@ -54,6 +54,9 @@ object BusquedaGenerica {
       -1
     }
 
+    if (coleccion.isEmpty) {
+      return -1
+    }
 
     // Tamaño de bloque es la raíz cuadrada de la longitud de la colección
     val tam_bloque = math.sqrt(coleccion.length).toInt
@@ -89,8 +92,8 @@ object BusquedaGenerica {
         // en caso contrario, si el valor buscado es menor, los numeros de Fibonacci a considerar son f0 = f0-(f1-f0)
         // y f1 = f1-f0  no cambia el valor de inicio
         f2  = f0
-        f0 = f0-(f1-f0)
         f1 = f1-f0
+        f0 = f2-f1
       }
       else {
         // si el valor almacenado en la posicion dada indice por coincide con el valor a buscar, hemos terminado la busqueda
@@ -104,6 +107,9 @@ object BusquedaGenerica {
       -1
     }
 
+    if (coleccion.isEmpty) {
+      return -1
+    }
 
     // sea n el numero de elementos en la lista o secuencia de elementos en los que buscar (que deben estar ordenada).
     val n =  coleccion.length
