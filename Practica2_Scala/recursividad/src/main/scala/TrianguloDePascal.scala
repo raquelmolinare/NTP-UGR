@@ -10,7 +10,13 @@ object TrianguloDePascal {
    * @param columna posición de la columna (empezando por 0)
    * @return valor de la posición
    */
-  def calcularValorTrianguloPascal(fila: Int, columna: Int): Int = {
+  def calcularValorTrianguloPascal(fila: Int, columna: Int): Long = {
+    // Comprobación de valor correcto de fila y columna
+    if( fila < columna) {
+      println("ERROR: la fila no puede ser menor a la columna")
+      return -1 //ERROR: la fila no puede ser menor a la columna
+    }
+
     // Cálculo del valor a partir de la ecuación y la función recursiva para obtener el factorial
     factorial(fila) / (factorial(columna) * factorial(fila-columna))
   }
@@ -21,7 +27,7 @@ object TrianguloDePascal {
    * @param n numero para calcular el factorial
    * @return n!
    */
-  def factorial(n: Int): Int = {
+  def factorial(n: Int): Long = {
     if (n == 0) {
       1
     } else {
@@ -37,7 +43,7 @@ object TrianguloDePascal {
   def main(args: Array[String]) {
     println("................... Triangulo de Pascal ...................")
 
-    val filas : Int  = 10
+    val filas : Int  = 15
 
     // Se muestra el triangulo según el número de filas establecido
     for (row <- 0 to filas) {
@@ -47,7 +53,8 @@ object TrianguloDePascal {
     }
 
     // Se muestra el valor que debe ocupar la fila 10 y columna 5
-    print(calcularValorTrianguloPascal(10, 5))
+    println(calcularValorTrianguloPascal(10, 5))
+    println(calcularValorTrianguloPascal(10, 15))
   }
 
 }
