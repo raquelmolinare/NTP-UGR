@@ -228,12 +228,18 @@ object FuncionesRecursivas {
     go(f0,f1,f2,inicio,n)
   }
 
-  //Funcion de ordenación mayor
+  //Funcion de ordenación mayor para elementos de tipo int
   def mayor(a : Int, b : Int): Boolean = a > b
 
-  //Función de ordenación menor
+  //Función de ordenación menor para elementos de tipo int
   def menor(a : Int, b : Int): Boolean = a < b
 
+
+  //Funcion de ordenación mayor para elementos de tipo char
+  def mayorChar(a : Char, b : Char): Boolean = a > b
+
+  //Función de ordenación menor para elementos de tipo char
+  def menorChar(a : Char, b : Char): Boolean = a < b
 
 
   /**
@@ -286,6 +292,27 @@ object FuncionesRecursivas {
     val pos_fibonacci = busquedaMetodoFibonacci(buscado, coleccion, mayor, menor)
     if (pos_fibonacci == -1) println("No se ha encontrado ese elemento en la lista")
     else println("Posición: "+pos_fibonacci)
+
+
+    println()
+    println("CADENAS DE CARACTERES")
+    val buscado_char : Char = 'f'
+    val coleccion_char: List[Char] = List('a','b','c','d','f','j')
+
+    println("Buscado: "+buscado_char)
+    print("Colección: ")
+    coleccion_char.foreach(item => print(item+" "))
+    println()
+    println()
+    println("SOLUCIÓN BÚSQUEDA A SALTOS:")
+    val pos_saltos_char = busquedaASaltosGenerica(buscado_char, coleccion_char, mayorChar)
+    if (pos_saltos_char == -1) println("No se ha encontrado ese elemento en la lista")
+    else println("Posición: "+pos_saltos_char)
+    println()
+    println("SOLUCIÓN BÚSQUEDA MÉTODO DE FIBONACCI:")
+    val pos_fibonacci_char = busquedaMetodoFibonacci(buscado_char, coleccion_char, mayorChar, menorChar)
+    if (pos_fibonacci_char == -1) println("No se ha encontrado ese elemento en la lista")
+    else println("Posición: "+pos_fibonacci_char)
 
 
   }

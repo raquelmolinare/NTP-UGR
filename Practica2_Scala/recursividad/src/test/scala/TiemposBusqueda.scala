@@ -11,8 +11,8 @@ object TiemposBusqueda extends App{
   ) withWarmer new Warmer.Default
 
   // se fija el valor a buscar y la colección a buscar
-  val buscado : Int = 10946
-  var coleccion: List[Int] = List(0,1,1,2,3,5,8,13,21,34,55,89,144,233,377,610,987,1597,2584,4181,6765,10946,17711,28657,46368,75025,121393,196418,317811,514229)
+  val coleccion = (1 to 750000).map(i => i).toList
+  val buscado = 350000
 
   // se prueba el metodo de busqueda
   val saltos = standardConfig measure{
