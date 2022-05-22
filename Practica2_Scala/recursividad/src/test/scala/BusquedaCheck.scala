@@ -2,7 +2,7 @@ import FuncionesRecursivas.{busquedaASaltosGenerica, busquedaMetodoFibonacci}
 import org.scalacheck.Prop.all
 import org.scalacheck.Properties
 
-  object BusquedaGenericaCheck extends Properties("Búsqueda Check") {
+  object BusquedaCheck extends Properties("Búsqueda Check") {
 
   property("Búsqueda A Saltos Generica") = {
     val check_busqueda1 = busquedaASaltosGenerica(1, List(1,2,3,4,5,6,7,8,9,10)) == 0

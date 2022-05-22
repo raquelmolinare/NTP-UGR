@@ -1,7 +1,7 @@
 import FuncionesRecursivas.{busquedaASaltosGenerica, busquedaMetodoFibonacci}
 import org.scalatest.funsuite.AnyFunSuite
 
-class BusquedaGenericaTest extends  AnyFunSuite {
+class BusquedaTest extends  AnyFunSuite {
 
   // se asigna la función a usar
   val saltos: (Int, List[Int]) => Int = busquedaASaltosGenerica
