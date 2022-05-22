@@ -32,15 +32,18 @@ class TrianguloDePascalTest extends AnyFunSuite  {
 
   // Prueba 6: calculo de valores extremos
   test("Triangulo De Pascal: Valores Extremos") {
-    assert(function(5,5) == 1)
-    assert(function(5,0) == 1)
-    assert(function(10, 10) == 1)
-    assert(function(15, 15) == 1)
+    assert(function(0,0) === 1)
+    assert(function(5,0) === 1)
+    assert(function(5,5) === 1)
+    assert(function(10, 0) === 1)
+    assert(function(10, 10) === 1)
+    assert(function(15, 0) === 1)
+    assert(function(15, 15) === 1)
   }
 
   // Prueba 6: calculo de un valor invalido : cuando la fila es menor a la columna
   test("Triangulo De Pascal: Valor Invalido (fila < columna)") {
-    assert(function(5, 10) == -1)
+    assert(function(5, 10) === -1)
   }
 
 }
