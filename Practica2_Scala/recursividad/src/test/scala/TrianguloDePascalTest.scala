@@ -1,9 +1,11 @@
+import FuncionesRecursivas.calcularValorTrianguloPascal
 import org.scalatest.funsuite.AnyFunSuite
+
 
 class TrianguloDePascalTest extends AnyFunSuite  {
 
   // se asigna la función a usar
-  val function: (Int, Int) => Long = TrianguloDePascal.calcularValorTrianguloPascal
+  val function: (Int, Int) => BigInt = calcularValorTrianguloPascal
 
   // Prueba 1: se calcula el valor de la columna 0 y fila 2
   test("Triangulo De Pascal: fila=2, columna=0") {
