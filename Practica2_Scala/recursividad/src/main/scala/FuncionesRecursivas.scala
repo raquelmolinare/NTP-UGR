@@ -78,7 +78,7 @@ object FuncionesRecursivas {
 
 
   /**
-   * Ejercicio 3: Búsqueda genérica en colecciones ordenadas
+   * Ejercicio 3: Búsqueda en colecciones ordenadas
    */
 
   def busquedaASaltosGenerica(buscado: Int, coleccion: List[Int])  : Int = {
@@ -157,6 +157,7 @@ object FuncionesRecursivas {
       if (buscado > coleccion(indice)) {
         // si el valor a buscar es mayor, entonces los numeros de Fibonacci a considerar para la siguiente iteracion son
         // f0 = f1-f0 y f1 = f0 y el nuevo valor de inicio a usar será el tomado por indice.
+        // por lo tanto tomando f2 = f1 entonces f1 = f0 y f0 = f2-f0 = f1(anterior)-f0
         f2  = f1
         f1 = f0
         f0 = f2-f0
@@ -165,6 +166,7 @@ object FuncionesRecursivas {
       else if (buscado < coleccion(indice)) {
         // en caso contrario, si el valor buscado es menor, los numeros de Fibonacci a considerar son f0 = f0-(f1-f0)
         // y f1 = f1-f0  no cambia el valor de inicio
+        // por lo tanto f2 = f0 entonces f1 = f1-f0 y f0 = f2-f1 = f0-(f1-f0)
         f2  = f0
         f1 = f1-f0
         f0 = f2-f1
