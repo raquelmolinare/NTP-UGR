@@ -1,4 +1,4 @@
-import BusquedaGenerica.{busquedaASaltosGenerica, busquedaMetodoFibonacci}
+import FuncionesRecursivas.{busquedaASaltosGenerica, busquedaMetodoFibonacci}
 import org.scalacheck.Prop.all
 import org.scalacheck.Properties
 

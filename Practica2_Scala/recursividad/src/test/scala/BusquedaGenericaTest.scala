@@ -1,11 +1,12 @@
+import FuncionesRecursivas.{busquedaASaltosGenerica, busquedaMetodoFibonacci}
 import org.scalatest.funsuite.AnyFunSuite
 
 class BusquedaGenericaTest extends  AnyFunSuite {
 
   // se asigna la función a usar
-  val saltos: (Int, List[Int]) => Int = BusquedaGenerica.busquedaASaltosGenerica
+  val saltos: (Int, List[Int]) => Int = busquedaASaltosGenerica
 
-  val fibonacci: (Int, List[Int]) => Int = BusquedaGenerica.busquedaMetodoFibonacci
+  val fibonacci: (Int, List[Int]) => Int = busquedaMetodoFibonacci
 
   // BÚSQUEDA GENÉRICA A SALTOS
   // Prueba 1: se la posocion de los distintos valores de la lista [1,2,3,4,5,6,7,8,9,10]

@@ -1,4 +1,4 @@
-import CambiosDeMoneda.listarCambiosPosibles
+import FuncionesRecursivas.listarCambiosPosibles
 import org.scalacheck.Prop.all
 import org.scalacheck.Properties
 

@@ -1,4 +1,4 @@
-import BusquedaGenerica.{busquedaASaltosGenerica, busquedaMetodoFibonacci}
+import FuncionesRecursivas.{busquedaASaltosGenerica, busquedaMetodoFibonacci}
 import org.scalameter.{Key, Warmer, config}
 
 object TiemposBusqueda extends App{

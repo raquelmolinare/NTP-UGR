@@ -1,9 +1,10 @@
+import FuncionesRecursivas.listarCambiosPosibles
 import org.scalatest.funsuite.AnyFunSuite
 
 class CambiosDeMonedaTest extends AnyFunSuite {
 
   // se asigna la función a usar
-  val function: (Int, List[Int]) => Int = CambiosDeMoneda.listarCambiosPosibles
+  val function: (Int, List[Int]) => Int = listarCambiosPosibles
 
   // Prueba 1: se calcula el numero de cambios posibles para un valor de 4 con monedas de 1 y 2
   test("Cambios De Moneda: valor=4, tipos_monedas=[1,2]") {

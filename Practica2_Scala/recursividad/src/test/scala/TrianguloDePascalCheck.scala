@@ -1,4 +1,4 @@
-import TrianguloDePascal.calcularValorTrianguloPascal
+import FuncionesRecursivas.calcularValorTrianguloPascal
 import org.scalacheck.Prop.forAll
 import org.scalacheck.{Gen, Properties}
 
