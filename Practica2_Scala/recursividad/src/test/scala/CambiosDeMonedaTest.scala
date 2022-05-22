@@ -30,4 +30,10 @@ class CambiosDeMonedaTest extends AnyFunSuite {
     assert(function(5, List(10,20)) === 0)
   }
 
+  // Prueba 6: se calcula el numero de cambios posibles para un valor de 5 con ningún tipo de monedas
+  test("Cambios De Moneda: valor=5, tipos_monedas=[]") {
+    assert(function(5, List()) === 0)
+  }
+
+
 }
