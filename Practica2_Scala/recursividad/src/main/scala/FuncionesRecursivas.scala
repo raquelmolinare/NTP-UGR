@@ -255,10 +255,14 @@ object FuncionesRecursivas {
     println()
     println()
     println("SOLUCIÓN BÚSQUEDA A SALTOS:")
-    println("Posición: "+busquedaASaltosGenerica(buscado, coleccion))
+    val pos_saltos = busquedaASaltosGenerica(buscado, coleccion)
+    if (pos_saltos == -1) println("No se ha encontrado ese elemento en la lista")
+    else println("Posición: "+pos_saltos)
     println()
     println("SOLUCIÓN BÚSQUEDA MÉTODO DE FIBONACCI:")
-    println("Posición: "+busquedaMetodoFibonacci(buscado, coleccion))
+    val pos_fibonacci = busquedaMetodoFibonacci(buscado, coleccion)
+    if (pos_fibonacci == -1) println("No se ha encontrado ese elemento en la lista")
+    else println("Posición: "+pos_fibonacci)
 
 
   }
