@@ -13,7 +13,7 @@ object CambiosDeMoneda {
 
     //Formas de dar cambio de un valor 0
     if (cantidad == 0) {
-      // Solo se puede devolver una cantidad de 0 de 1 forma: Devolviendo 0
+      // Solo se puede devolver una cantidad de 0 de 1 forma
       1
     }
     else if ( (cantidad>=0 && monedas.isEmpty) || cantidad < 0) {

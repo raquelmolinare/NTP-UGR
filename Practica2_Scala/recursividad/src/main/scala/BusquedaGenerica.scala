@@ -20,6 +20,10 @@ object BusquedaGenerica {
 
     def metodoSaltos(coleccion: List[Int], tam_bloque: Int)  : Int = {
 
+      if (coleccion.isEmpty) {
+        return -1
+      }
+
       // Comparar el elemento buscado con el final del primer bloque
       val primer_bloque = coleccion.take(tam_bloque)
 
