@@ -98,7 +98,7 @@ object Conjunto {
   /**
    * Constante que representa un rango de valores
    */
-  private final val LIMITE = 10
+  final val LIMITE = 10
 
   /**
    * Método factoría apply que permite crear instancias sin usar la palabra new
@@ -158,6 +158,17 @@ object Conjunto {
 
     val mapeado = negativos.map((x : Int) => x*(-1))
     println(mapeado)
+
+    val f_pares = (x : Int) => x % 2 == 0
+    val f_negativos = (x : Int) => x < 0
+
+    val c1 = Conjunto(f_negativos)
+    val c33 = Conjunto(f_pares)
+    val inter = c1.interseccion(c33)
+    println(c1(1))
+    println(c33(1))
+    println(inter(1))
+    println(Conjunto((x : Int) => (x > 1) || (x < 1)))
 
   }
 
