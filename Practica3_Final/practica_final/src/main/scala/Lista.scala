@@ -217,34 +217,4 @@ object Lista {
     case Cons(cabeza, cola) => foldLeft(cola, funcion(neutro,cabeza))(funcion)
   }
 
-
-  /**
-   * Método main: No es necesario pero se usa para tener un feedback visual
-   * @param args argumentos
-   */
-  def main(args: Array[String]): Unit = {
-    val lista = Lista(1,3,4,5)
-    println(lista)
-    println(longitud(lista))
-    println(sumaEnteros(lista))
-    println(productoEnteros(lista))
-    println(concatenar(lista, Lista(0,0)))
-
-    def f(a: Int, b: Int) = a * b
-    println(foldRight(lista,1)(f))
-
-    println(sumaFoldRight(lista))
-    println(productoFoldRight(lista))
-    println(asignarCabeza(lista, 0))
-    println(asignarCabeza(Lista(), 0))
-    println(head(Lista()))
-    println(head(Lista(0,1,2)))
-    println(tail(Lista(4,5,5,6)))
-    println(eliminar(Lista(4,5,5,6),2))
-    println(eliminarMientras(Lista(4,5,5,6), (x : Int) => x % 2 == 0))
-    println(eliminarMientras(Lista(4,5,5,6), (x : Int) => x == x))
-    println(eliminarUltimo(Lista(1,2,3,4)))
-    println(foldLeft(lista,1)(f))
-
-  }
 }
