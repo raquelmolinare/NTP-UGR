@@ -5,4 +5,4 @@ Repositorio de las prácticas de Nuevas Tecnologías de la Programación (NTP) c
 
 ### Práctica 2: programación funcional en Scala - Recursividad
 
-### Práctica 3: práctica final
+### Práctica 3: práctica final - Conjuntos mediante funciones características y Clase Lista
